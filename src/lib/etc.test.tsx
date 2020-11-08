@@ -19,11 +19,11 @@ it('should generate array of n random numbers', () => {
 
 it('should swap two elements in an array', () => {
   let arr: number[] = [0, 1, 2, 3, 4];
-  arr = swap(arr, 0, 1)
+  swap(arr, 0, 1)
   expect(arr[0]).toBe(1)
   expect(arr[1]).toBe(0)
 
-  arr = swap(arr, 2, 4)
+  swap(arr, 2, 4)
   expect(arr[2]).toBe(4)
   expect(arr[4]).toBe(2)
 })

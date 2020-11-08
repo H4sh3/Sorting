@@ -1,9 +1,9 @@
 import { swap, sleep } from "./etc";
 
-function partition(items: number[], left: number, right: number, updateState: Function = () => { }) {
-  var pivot = items[Math.floor((right + left) / 2)], //middle element
-    i = left, //left pointer
-    j = right; //right pointer
+function partition(items: number[], low: number, high: number, updateState: Function = () => { }) {
+  const pivot = items[Math.floor((high + low) / 2)]
+  let i: number = low;
+  let j: number = high;
   while (i <= j) {
     while (items[i] < pivot) {
       i++;
@@ -12,7 +12,7 @@ function partition(items: number[], left: number, right: number, updateState: Fu
       j--;
     }
     if (i <= j) {
-      items = swap(items, i, j); //sawpping two elements
+      swap(items, i, j); //sawpping two elements
       i++;
       j--;
       updateState(items)
@@ -21,15 +21,15 @@ function partition(items: number[], left: number, right: number, updateState: Fu
   return i;
 }
 
-async function quickSort(items: number[], left: number, right: number, updateState: Function = () => { }) {
-  var index;
+async function quickSort(items: number[], low: number, high: number, updateState: Function = () => { }) {
+  let index: number;
   if (items.length > 1) {
-    index = partition(items, left, right); //index returned from partition
-    if (left < index - 1) { //more elements on the left side of the pivot
-      await quickSort(items, left, index - 1, updateState);
+    index = partition(items, low, high);
+    if (low < index - 1) {
+      await quickSort(items, low, index - 1, updateState);
     }
-    if (index < right) { //more elements on the right side of the pivot
-      await quickSort(items, index, right, updateState);
+    if (index < high) {
+      await quickSort(items, index, high, updateState);
     }
   }
   await sleep(25)
