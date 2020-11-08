@@ -12,7 +12,7 @@ function partition(items: number[], low: number, high: number, updateState: Func
       j--;
     }
     if (i <= j) {
-      swap(items, i, j); //sawpping two elements
+      swap(items, i, j);
       i++;
       j--;
       updateState(items)
