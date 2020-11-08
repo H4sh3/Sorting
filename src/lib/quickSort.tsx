@@ -38,5 +38,6 @@ async function quickSort(items: number[], left: number, right: number, updateSta
 }
 // first call to quick sort
 export {
-  quickSort
+  quickSort,
+  partition
 }
