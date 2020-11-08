@@ -1,5 +1,7 @@
 import React from 'react'; // we need this to make JSX compile
 import { randomArray } from '../lib/etc';
+import bubbleSort from '../lib/bubbleSorte';
+import { quickSort } from '../lib/quickSort';
 
 interface IProps {
 
@@ -14,20 +16,20 @@ export class DataVis extends React.Component<IProps, IState>{
     super(props)
 
     this.state = {
-      data: []//randomArray(100, 10)
+      data: []
     }
   }
-  
+
   randomizeData() {
-    this.setState({ data: randomArray(100, 10) })
+    this.setState({ data: randomArray(100, 20) })
   }
-  
-  componentDidMount(){
+
+  componentDidMount() {
     this.randomizeData()
   }
 
   render() {
-    return <div>
+    return <div style={{ backgroundColor: "grey" }}>
       <div>{this.visualize(this.state.data, this.state.data.length)}</div>
       <button onClick={() => { this.sort() }}>Sort</button>
       <button onClick={() => { this.randomizeData() }}>Randomize Data</button>
@@ -37,15 +39,20 @@ export class DataVis extends React.Component<IProps, IState>{
   visualize(data: number[], l: number) {
     return data.map((d, index) => <div key={index} style={{
       display: "inline-block",
-      margin: "2px",
       height: `${d}rem`,
+      margin: '2px',
       width: `${50 / l}rem`,
-      backgroundColor: "black"
+      backgroundColor: "#ff5500",
+      border: "solid 2px black"
     }}></div>)
   }
 
   sort() {
-    this.setState({ data: this.state.data.sort() })
+    const updateState = (arr: number[]) => {
+      this.setState({ data: arr })
+    }
+    // bubbleSort(this.state.data, updateState)
+    quickSort(this.state.data, 0, this.state.data.length, updateState)
   }
 
 }

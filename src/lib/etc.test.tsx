@@ -1,4 +1,4 @@
-import { getRandomInt, randomArray, swap } from './etc'
+import { getRandomInt, randomArray, swap, getPivot, isSorted } from './etc'
 
 it('should generate random number in range', () => {
   const upperBound: number = 5;
@@ -26,4 +26,26 @@ it('should swap two elements in an array', () => {
   arr = swap(arr, 2, 4)
   expect(arr[2]).toBe(4)
   expect(arr[4]).toBe(2)
+})
+
+it('should return pivot element of array', () => {
+  const arr1 = [1, 2, 3, 4, 5, 6, 7]
+  let piv = getPivot(arr1, 0, arr1.length)
+  expect(piv).toBe(3)
+
+  const arr2 = [1, 2, 3, 4, 5, 6]
+  piv = getPivot(arr2, 0, arr2.length)
+  expect(piv).toBe(3)
+
+
+  piv = getPivot(arr2, 2, arr2.length)
+  expect(piv).toBe(4)
+})
+
+it('should check if arr is sorted', () => {
+  const sorted = [2, 3, 4, 5, 6]
+  expect(isSorted(sorted)).toBeTruthy()
+
+  const unsorted = [2, 3, 4, 5, 6, 1]
+  expect(isSorted(unsorted)).toBeFalsy()
 })
