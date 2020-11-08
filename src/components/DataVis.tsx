@@ -47,12 +47,12 @@ export class DataVis extends React.Component<IProps, IState>{
     }}></div>)
   }
 
-  sort() {
+  async sort() {
     const updateState = (arr: number[]) => {
       this.setState({ data: arr })
     }
     // bubbleSort(this.state.data, updateState)
-    quickSort(this.state.data, 0, this.state.data.length, updateState)
+    await quickSort(this.state.data, 0, this.state.data.length, updateState)
   }
 
 }
