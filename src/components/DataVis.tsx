@@ -21,7 +21,7 @@ export class DataVis extends React.Component<IProps, IState>{
 
     this.state = {
       data: [],
-      active: Function,
+      active: () => { return false },
       sorting: false,
       sorted: false,
     }
@@ -36,7 +36,7 @@ export class DataVis extends React.Component<IProps, IState>{
   render() {
     return <div >
       <h1>Sorting</h1>
-      <div style={{ backgroundColor: "grey" }}>
+      <div style={{ backgroundColor: "grey", paddingTop: "1rem" }}>
         {this.visualize(this.state.data, this.state.data.length)}
       </div>
       <this.Menu></this.Menu>
@@ -45,8 +45,8 @@ export class DataVis extends React.Component<IProps, IState>{
 
   Menu() {
     return <span>
-      <Button disabled={this.state.sorting} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(QUICK_SORT) }}>{QUICK_SORT}</Button>
-      <Button disabled={this.state.sorting} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(BUBBLE_SORT) }}>{BUBBLE_SORT}</Button>
+      <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(QUICK_SORT) }}>{QUICK_SORT}</Button>
+      <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(BUBBLE_SORT) }}>{BUBBLE_SORT}</Button>
       <Button disabled={this.state.sorting} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.randomizeData() }}>Randomize Data</Button>
     </span>
   }
@@ -57,7 +57,7 @@ export class DataVis extends React.Component<IProps, IState>{
       height: `${d}rem`,
       margin: '1px',
       width: `${30 / l}rem`,
-      backgroundColor: this.state.sorted ? "#00ff00" : this.state.active(index) ? "#ff0000" : "#000000",
+      backgroundColor: this.state.sorted ? "#00ff00" : this.state.active(index) ? "#0000ff" : "#000000",
     }}></div>)
   }
 
