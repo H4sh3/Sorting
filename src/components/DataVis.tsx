@@ -1,14 +1,18 @@
 import React from 'react'; // we need this to make JSX compile
 import { randomArray } from '../lib/etc';
-import bubbleSort from '../lib/bubbleSorte';
-import { quickSort } from '../lib/quickSort';
+import { bubbleSort, BUBBLE_SORT } from '../lib/bubbleSorte';
+import { quickSort, QUICK_SORT } from '../lib/quickSort';
+import Button from 'react-bootstrap/Button';
 
 interface IProps {
 
 }
 
 interface IState {
-  data: number[]
+  data: number[],
+  active: Function,
+  sorting: boolean,
+  sorted: boolean
 }
 
 export class DataVis extends React.Component<IProps, IState>{
@@ -16,12 +20,13 @@ export class DataVis extends React.Component<IProps, IState>{
     super(props)
 
     this.state = {
-      data: []
+      data: [],
+      active: Function,
+      sorting: false,
+      sorted: false,
     }
-  }
 
-  randomizeData() {
-    this.setState({ data: randomArray(100, 20) })
+    this.Menu = this.Menu.bind(this);
   }
 
   componentDidMount() {
@@ -29,30 +34,69 @@ export class DataVis extends React.Component<IProps, IState>{
   }
 
   render() {
-    return <div style={{ backgroundColor: "grey" }}>
-      <div>{this.visualize(this.state.data, this.state.data.length)}</div>
-      <button onClick={() => { this.sort() }}>Sort</button>
-      <button onClick={() => { this.randomizeData() }}>Randomize Data</button>
+    return <div >
+      <h1>Sorting</h1>
+      <div style={{ backgroundColor: "grey" }}>
+        {this.visualize(this.state.data, this.state.data.length)}
+      </div>
+      <this.Menu></this.Menu>
     </div>
+  }
+
+  Menu() {
+    return <span>
+      <Button disabled={this.state.sorting} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(QUICK_SORT) }}>{QUICK_SORT}</Button>
+      <Button disabled={this.state.sorting} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(BUBBLE_SORT) }}>{BUBBLE_SORT}</Button>
+      <Button disabled={this.state.sorting} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.randomizeData() }}>Randomize Data</Button>
+    </span>
   }
 
   visualize(data: number[], l: number) {
     return data.map((d, index) => <div key={index} style={{
       display: "inline-block",
       height: `${d}rem`,
-      margin: '2px',
-      width: `${50 / l}rem`,
-      backgroundColor: "#ff5500",
-      border: "solid 2px black"
+      margin: '1px',
+      width: `${30 / l}rem`,
+      backgroundColor: this.state.sorted ? "#00ff00" : this.state.active(index) ? "#ff0000" : "#000000",
     }}></div>)
   }
 
-  async sort() {
-    const updateState = (arr: number[]) => {
-      this.setState({ data: arr })
+  randomizeData() {
+    this.setState({ data: randomArray(150, 20), sorted: false })
+  }
+
+  async sort(algo: string) {
+    this.setState({ sorting: true })
+    await this.runSortingAlgo(algo)
+    this.setState({ sorting: false, sorted: true, active: () => { return false } })
+  }
+
+  async runSortingAlgo(algo: string) {
+    switch (algo) {
+      case QUICK_SORT: {
+
+        const updateState = (arr: number[], low: number, high: number) => {
+          const active = (i: number) => {
+            return i >= low && i <= high;
+          }
+          this.setState({ data: arr, active })
+        }
+        await quickSort(this.state.data, 0, this.state.data.length, updateState)
+        break;
+      }
+      case BUBBLE_SORT: {
+        const updateState = (arr: number[], low: number, high: number) => {
+          const active = (i: number) => {
+            return i >= low && i <= high;
+          }
+          this.setState({ data: arr, active })
+        }
+        await bubbleSort(this.state.data, updateState)
+        break;
+      }
+      default: {
+      }
     }
-    // bubbleSort(this.state.data, updateState)
-    await quickSort(this.state.data, 0, this.state.data.length, updateState)
   }
 
 }

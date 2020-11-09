@@ -1,5 +1,5 @@
 function getRandomInt(max: number) {
-  return Math.floor(Math.random() * Math.floor(max));
+  return Math.random() * Math.floor(max);
 }
 
 function randomArray(n: number, max: number): number[] {
