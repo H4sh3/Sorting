@@ -3,6 +3,8 @@ import { randomArray } from '../lib/etc';
 import { bubbleSort, BUBBLE_SORT } from '../lib/bubbleSort';
 import { quickSort, QUICK_SORT } from '../lib/quickSort';
 import Button from 'react-bootstrap/Button';
+import { Container, Row, Col } from 'react-bootstrap';
+import { SELECTION_SORT, selectionSort } from '../lib/selectionSort';
 
 interface IProps {
 
@@ -44,11 +46,24 @@ export class DataVis extends React.Component<IProps, IState>{
   }
 
   Menu() {
-    return <span>
-      <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(QUICK_SORT) }}>{QUICK_SORT}</Button>
-      <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(BUBBLE_SORT) }}>{BUBBLE_SORT}</Button>
-      <Button disabled={this.state.sorting} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.randomizeData() }}>Randomize Data</Button>
-    </span>
+    return <Container>
+      <Row>
+        <Col>
+          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(QUICK_SORT) }}>{QUICK_SORT}</Button>
+        </Col>
+        <Col>
+          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(BUBBLE_SORT) }}>{BUBBLE_SORT}</Button>
+        </Col>
+        <Col>
+          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(SELECTION_SORT) }}>{SELECTION_SORT}</Button>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Button disabled={this.state.sorting} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.randomizeData() }}>Randomize Data</Button>
+        </Col>
+      </Row>
+    </Container>
   }
 
   visualize(data: number[], l: number) {
@@ -92,6 +107,16 @@ export class DataVis extends React.Component<IProps, IState>{
           this.setState({ data: arr, active })
         }
         await bubbleSort(this.state.data, updateState)
+        break;
+      }
+      case SELECTION_SORT: {
+        const updateState = (arr: number[], low: number, high: number) => {
+          const active = (i: number) => {
+            return i >= low && i <= high;
+          }
+          this.setState({ data: arr, active })
+        }
+        await selectionSort(this.state.data, updateState)
         break;
       }
       default: {
