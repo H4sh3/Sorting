@@ -39,9 +39,9 @@ export class DataVis extends React.Component<IProps, IState>{
   render() {
     return <div >
       <h1>Sorting</h1>
-      <div style={{ backgroundColor: "grey", paddingTop: "1rem" }}>
+      <Container style={{ backgroundColor: "grey", paddingTop: "4rem", paddingBottom: "4rem" }}>
         {this.visualize(this.state.data, this.state.data.length)}
-      </div>
+      </Container>
       <this.Menu></this.Menu>
     </div>
   }
@@ -64,7 +64,7 @@ export class DataVis extends React.Component<IProps, IState>{
       </Row>
       <Row>
         <Col>
-          <Button disabled={this.state.sorting} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.randomizeData() }}>Randomize Data</Button>
+          <Button disabled={this.state.sorting} variant="warning" style={{ margin: "1rem" }} onClick={() => { this.randomizeData() }}>Randomize</Button>
         </Col>
       </Row>
     </Container>
@@ -87,7 +87,7 @@ export class DataVis extends React.Component<IProps, IState>{
   async sort(algo: string) {
     this.setState({ sorting: true })
     await this.runSortingAlgo(algo)
-    this.setState({ sorting: false, sorted: true, active: () => { return false } })
+    this.setState({ sorting: false, sorted: false, active: () => { return false } })
   }
 
   async runSortingAlgo(algo: string) {
