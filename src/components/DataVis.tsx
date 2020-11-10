@@ -1,5 +1,5 @@
 import React from 'react'; // we need this to make JSX compile
-import { randomArray } from '../lib/etc';
+import { randomArray, isSorted } from '../lib/etc';
 import { bubbleSort, BUBBLE_SORT } from '../lib/bubbleSort';
 import { quickSort, QUICK_SORT } from '../lib/quickSort';
 import Button from 'react-bootstrap/Button';
@@ -38,7 +38,7 @@ export class DataVis extends React.Component<IProps, IState>{
 
   render() {
     return <div >
-      <h1>Sorting</h1>
+      <h1>Sorting Algorithms</h1>
       <Container style={{ backgroundColor: "grey", paddingTop: "4rem", paddingBottom: "4rem" }}>
         {this.visualize(this.state.data, this.state.data.length)}
       </Container>
@@ -64,7 +64,7 @@ export class DataVis extends React.Component<IProps, IState>{
       </Row>
       <Row>
         <Col>
-          <Button disabled={this.state.sorting} variant="warning" style={{ margin: "1rem" }} onClick={() => { this.randomizeData() }}>Randomize</Button>
+          <Button disabled={this.state.sorting} variant="danger" style={{ margin: "1rem" }} onClick={() => { this.randomizeData() }}>Randomize</Button>
         </Col>
       </Row>
     </Container>
@@ -87,7 +87,7 @@ export class DataVis extends React.Component<IProps, IState>{
   async sort(algo: string) {
     this.setState({ sorting: true })
     await this.runSortingAlgo(algo)
-    this.setState({ sorting: false, sorted: false, active: () => { return false } })
+    this.setState({ sorting: false, sorted: isSorted(this.state.data), active: () => { return false } })
   }
 
   async runSortingAlgo(algo: string) {
