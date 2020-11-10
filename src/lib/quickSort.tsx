@@ -37,7 +37,6 @@ async function quickSort(arr: number[], low: number, high: number, updateState: 
   }
   return arr;
 }
-// first call to quick sort
 
 export {
   QUICK_SORT,
