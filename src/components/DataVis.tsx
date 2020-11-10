@@ -5,6 +5,7 @@ import { quickSort, QUICK_SORT } from '../lib/quickSort';
 import Button from 'react-bootstrap/Button';
 import { Container, Row, Col } from 'react-bootstrap';
 import { SELECTION_SORT, selectionSort } from '../lib/selectionSort';
+import { STOOGE_SORT, stoogeSort } from '../lib/stoogeSort';
 
 interface IProps {
 
@@ -56,6 +57,9 @@ export class DataVis extends React.Component<IProps, IState>{
         </Col>
         <Col>
           <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(SELECTION_SORT) }}>{SELECTION_SORT}</Button>
+        </Col>
+        <Col>
+          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(STOOGE_SORT) }}>{STOOGE_SORT}</Button>
         </Col>
       </Row>
       <Row>
@@ -117,6 +121,16 @@ export class DataVis extends React.Component<IProps, IState>{
           this.setState({ data: arr, active })
         }
         await selectionSort(this.state.data, updateState)
+        break;
+      }
+      case STOOGE_SORT: {
+        const updateState = (arr: number[], low: number, high: number) => {
+          const active = (i: number) => {
+            return i >= low && i <= high;
+          }
+          this.setState({ data: arr, active })
+        }
+        await stoogeSort(this.state.data, 0, this.state.data.length, updateState)
         break;
       }
       default: {
