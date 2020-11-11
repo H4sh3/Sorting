@@ -7,13 +7,14 @@ it('should generate random number in range', () => {
 })
 
 it('should generate array of n random numbers', () => {
-  const n: number = 20;
+  const n: number = 500;
   const max: number = 5;
   const arr: number[] = randomArray(n, max);
 
   expect(arr.length).toBe(n);
   for (let n of arr) {
-    expect(n).toBeLessThanOrEqual(max)
+    expect(typeof n).toBe('number');
+    expect(n).toBeLessThanOrEqual(max);
   }
 })
 

@@ -1,11 +1,15 @@
-function getRandomInt(max: number) {
+function randomInt(max: number) {
+  return Math.floor(random(max));
+}
+
+function random(max: number) {
   return Math.random() * Math.floor(max);
 }
 
 function randomArray(n: number, max: number): number[] {
   const arr: number[] = [];
   for (let i: number = 0; i < n; i++) {
-    arr.push(getRandomInt(max));
+    arr.push(random(max));
   }
   return arr;
 }
@@ -21,7 +25,7 @@ function sleep(milliseconds: number) {
 }
 
 function getPivot(arr: number[], low: number, high: number) {
-  return arr[Math.floor((low+high) / 2) - 1]
+  return arr[Math.floor((low + high) / 2) - 1]
 }
 
 function isSorted(arr: number[]) {
@@ -37,7 +41,8 @@ function isSorted(arr: number[]) {
 }
 
 export {
-  getRandomInt,
+  randomInt,
+  random,
   randomArray,
   swap,
   sleep,
