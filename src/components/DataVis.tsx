@@ -1,5 +1,5 @@
 import React from 'react'; // we need this to make JSX compile
-import { randomArray, isSorted, sleep } from '../lib/etc';
+import { randomArray, sleep } from '../lib/etc';
 import { bubbleSort, BUBBLE_SORT } from '../lib/bubbleSort';
 import { quickSort, QUICK_SORT } from '../lib/quickSort';
 import Button from 'react-bootstrap/Button';
