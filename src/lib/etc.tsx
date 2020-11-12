@@ -15,9 +15,9 @@ function randomArray(n: number, max: number): number[] {
 }
 
 function swap(arr: number[], i1: number, i2: number) {
-  const tmp = arr[i1]
-  arr[i1] = arr[i2]
-  arr[i2] = tmp
+  const tmp = arr[i1];
+  arr[i1] = arr[i2];
+  arr[i2] = tmp;
 }
 
 function sleep(milliseconds: number) {

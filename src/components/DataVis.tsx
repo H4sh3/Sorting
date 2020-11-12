@@ -1,12 +1,14 @@
-import React from 'react'; // we need this to make JSX compile
+import React from 'react';
 import { randomArray, sleep } from '../lib/etc';
-import { bubbleSort, BUBBLE_SORT } from '../lib/bubbleSort';
-import { quickSort, QUICK_SORT } from '../lib/quickSort';
 import Button from 'react-bootstrap/Button';
 import { Container, Row, Col } from 'react-bootstrap';
+import './DataVis.css';
+
+// sorting algos
+import { quickSort, QUICK_SORT } from '../lib/quickSort';
+import { bubbleSort, BUBBLE_SORT } from '../lib/bubbleSort';
 import { SELECTION_SORT, selectionSort } from '../lib/selectionSort';
 import { STOOGE_SORT, stoogeSort } from '../lib/stoogeSort';
-import './DataVis.css';
 interface IProps {
 
 }
@@ -143,7 +145,7 @@ export class DataVis extends React.Component<IProps, IState>{
           }
           this.setState({ data: arr, active })
         }
-        const comparisons = await quickSort(this.state.data, 0, this.state.data.length, updateState)
+        const comparisons = await quickSort(this.state.data, 0, this.state.data.length-1, updateState)
         this.updateComparison(algo, comparisons);
         break;
       }

@@ -1,8 +1,8 @@
-import { getRandomInt, randomArray, swap, getPivot, isSorted } from './etc'
+import { randomInt, randomArray, swap, getPivot, isSorted } from './etc'
 
 it('should generate random number in range', () => {
   const upperBound: number = 5;
-  const n = getRandomInt(upperBound)
+  const n = randomInt(upperBound)
   expect(n).toBeLessThanOrEqual(upperBound)
 })
 

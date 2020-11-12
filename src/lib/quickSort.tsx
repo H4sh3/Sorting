@@ -1,44 +1,40 @@
-import { swap, sleep } from "./etc";
+import { swap, sleep } from './etc';
 
-const QUICK_SORT = "Quick Sort";
+const QUICK_SORT = 'Quick Sort';
 
-async function partition(arr: number[], low: number, high: number, updateState: Function) {
-  const pivot = arr[Math.floor((high + low) / 2)]
-  let index: number = low;
-  let j: number = high;
+async function partition(arr: number[], start: number, end: number, updateState: Function) {
+  // Use last element as the pivot
+  const pivotValue = arr[end];
+  let index: number = start;
+  let sum: number = 0;
+  for (let i = start; i < end; i++) {
+    sum++;
+    if (arr[i] < pivotValue) {
+      swap(arr, i, index)
+      index++;
+      updateState(arr, start, end)
+      await sleep(5)
+    }
+  }
+
+  swap(arr, index, end)
+  return { index, sum };
+};
+
+async function quickSort(arr: number[], start: number, end: number, updateState: Function) {
   let comparisons = 0;
-  while (index <= j) {
-    while (arr[index] < pivot) {
-      index++;
-    }
-    while (arr[j] > pivot) {
-      j--;
-    }
-    comparisons++;
-    if (index <= j) {
-      swap(arr, index, j);
-      index++;
-      j--;
-      updateState(arr, low, high)
-      await sleep(15)
-    }
+  if (start >= end) {
+    // Base case or terminating case
+    return 0;
   }
-  return { index, comparisons };
-}
 
-async function quickSort(arr: number[], low: number, high: number, updateState: Function) {
-  let sum = 0;
-  if (arr.length > 1) {
-    const { index, comparisons } = await partition(arr, low, high, updateState);
-    sum += comparisons
-    if (low < index - 1) {
-      sum += await quickSort(arr, low, index - 1, updateState);
-    }
-    if (index < high) {
-      sum += await quickSort(arr, index, high, updateState);
-    }
-  }
-  return sum;
+  let { index, sum } = await partition(arr, start, end, updateState);
+
+  sum += await quickSort(arr, start, index - 1, updateState);
+  sum += await quickSort(arr, index + 1, end, updateState);
+
+  comparisons += sum
+  return comparisons
 }
 
 export {

@@ -6,7 +6,7 @@ async function stoogeSort(arr: number[], s: number, e: number, updateState: Func
   let sum = 1;
   if (arr[e - 1] < arr[s]) {
     swap(arr, e - 1, s)
-    updateState(arr, e - 1, s)
+    updateState(arr, s,e - 1)
     if(random(1)>0.95){
       await sleep(1)
     }
