@@ -56,10 +56,10 @@ export class DataVis extends React.Component<IProps, IState>{
         <Col >
           Algorithm
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           Complexity
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           Comparisons
         </Col>
       </Row>
@@ -68,10 +68,10 @@ export class DataVis extends React.Component<IProps, IState>{
         <Col >
           <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(QUICK_SORT) }}>{QUICK_SORT}</Button>
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           O(n*log(n))
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           {this.state.comparisonsMap.get(QUICK_SORT)}
         </Col>
       </Row>
@@ -80,10 +80,10 @@ export class DataVis extends React.Component<IProps, IState>{
         <Col >
           <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(BUBBLE_SORT) }}>{BUBBLE_SORT}</Button>
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           O(n²)
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           {this.state.comparisonsMap.get(BUBBLE_SORT)}
         </Col>
       </Row>
@@ -92,10 +92,10 @@ export class DataVis extends React.Component<IProps, IState>{
         <Col >
           <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(SELECTION_SORT) }}>{SELECTION_SORT}</Button>
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           O(n²)
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           {this.state.comparisonsMap.get(SELECTION_SORT)}
         </Col>
       </Row>
@@ -104,10 +104,10 @@ export class DataVis extends React.Component<IProps, IState>{
         <Col >
           <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(STOOGE_SORT) }}>{STOOGE_SORT}</Button>
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           O(n^2.7095)
         </Col>
-        <Col className="Runtime">
+        <Col className="CenteredText">
           {this.state.comparisonsMap.get(STOOGE_SORT)}
         </Col>
       </Row>
@@ -119,17 +119,18 @@ export class DataVis extends React.Component<IProps, IState>{
       display: "inline-block",
       height: `${d}rem`,
       margin: '1px',
-      width: `${20 / l}rem`,
+      width: `${35 / l}%`,
       backgroundColor: this.state.sorted ? "#00ff00" : this.state.active(index) ? "#0000ff" : "#000000",
     }}></div>)
   }
 
   randomizeData() {
-    this.setState({ data: randomArray(150, 20), sorted: false })
+    this.setState({ data: randomArray(100, 20), sorted: false })
   }
 
   async sort(algo: string) {
-    this.setState({ data: randomArray(150, 20), sorting: true })
+    this.randomizeData()
+    this.setState({ sorting: true })
     await sleep(15)
     await this.runSortingAlgo(algo)
     this.setState({ sorting: false, sorted: false, active: () => { return false } })
@@ -145,7 +146,7 @@ export class DataVis extends React.Component<IProps, IState>{
           }
           this.setState({ data: arr, active })
         }
-        const comparisons = await quickSort(this.state.data, 0, this.state.data.length-1, updateState)
+        const comparisons = await quickSort(this.state.data, 0, this.state.data.length - 1, updateState)
         this.updateComparison(algo, comparisons);
         break;
       }
