@@ -140,7 +140,7 @@ export class DataVis extends React.Component<IProps, IState>{
     switch (algo) {
       case QUICK_SORT: {
 
-        const updateState = (arr: number[], low: number, high: number, count: number) => {
+        const updateState = (arr: number[], low: number, high: number) => {
           const active = (i: number) => {
             return i >= low && i <= high;
           }
@@ -151,7 +151,7 @@ export class DataVis extends React.Component<IProps, IState>{
         break;
       }
       case BUBBLE_SORT: {
-        const updateState = (arr: number[], low: number, high: number, count: number) => {
+        const updateState = (arr: number[], low: number, high: number) => {
           const active = (i: number) => {
             return i >= low && i <= high;
           }
@@ -162,7 +162,7 @@ export class DataVis extends React.Component<IProps, IState>{
         break;
       }
       case SELECTION_SORT: {
-        const updateState = (arr: number[], low: number, high: number, count: number) => {
+        const updateState = (arr: number[], low: number, high: number) => {
           const active = (i: number) => {
             return i >= low && i <= high;
           }
