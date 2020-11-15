@@ -9,6 +9,8 @@ import { quickSort, QUICK_SORT } from '../lib/quickSort';
 import { bubbleSort, BUBBLE_SORT } from '../lib/bubbleSort';
 import { SELECTION_SORT, selectionSort } from '../lib/selectionSort';
 import { STOOGE_SORT, stoogeSort } from '../lib/stoogeSort';
+import { MERGE_SORT, mergeSort } from '../lib/mergeSort';
+
 interface IProps {
 
 }
@@ -111,6 +113,18 @@ export class DataVis extends React.Component<IProps, IState>{
           {this.state.comparisonsMap.get(STOOGE_SORT)}
         </Col>
       </Row>
+
+      <Row >
+        <Col >
+          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(MERGE_SORT) }}>{MERGE_SORT}</Button>
+        </Col>
+        <Col className="CenteredText">
+          O(n*log(n))
+        </Col>
+        <Col className="CenteredText">
+          {this.state.comparisonsMap.get(MERGE_SORT)}
+        </Col>
+      </Row>
     </Container>
   }
 
@@ -181,6 +195,30 @@ export class DataVis extends React.Component<IProps, IState>{
         }
         const comparisons = await stoogeSort(this.state.data, 0, this.state.data.length, updateState)
         this.updateComparison(algo, comparisons);
+
+        break;
+      }
+      case MERGE_SORT: {
+        let comps = 0;
+        const updateState = (arr: number[], start: number, end: number, comparisons: number) => {
+          comps += comparisons;
+          const active = (i: number) => {
+            return i >= start && i <= end;
+          }
+          const stateDataCopy: number[] = []
+          this.state.data.forEach(d => {
+            stateDataCopy.push(d)
+          })
+          arr.forEach((d, index) => {
+            stateDataCopy[index + start] = d
+          })
+          this.setState({ data: stateDataCopy, active })
+        }
+        const sorted = await mergeSort(this.state.data, 0, this.state.data.length - 1, updateState)
+
+        this.setState({ data: sorted })
+
+        this.updateComparison(algo, comps);
 
         break;
       }
