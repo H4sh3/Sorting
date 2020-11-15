@@ -7,9 +7,9 @@ import './DataVis.css';
 // sorting algos
 import { quickSort, QUICK_SORT } from '../lib/quickSort';
 import { bubbleSort, BUBBLE_SORT } from '../lib/bubbleSort';
-import { SELECTION_SORT, selectionSort } from '../lib/selectionSort';
-import { STOOGE_SORT, stoogeSort } from '../lib/stoogeSort';
-import { MERGE_SORT, mergeSort } from '../lib/mergeSort';
+import { selectionSort, SELECTION_SORT } from '../lib/selectionSort';
+import { stoogeSort, STOOGE_SORT } from '../lib/stoogeSort';
+import { mergeSort, MERGE_SORT } from '../lib/mergeSort';
 
 interface IProps {
 
@@ -21,6 +21,7 @@ interface IState {
   sorting: boolean,
   sorted: boolean,
   comparisonsMap: Map<string, number>,
+  algos: { id: string, complexity: string }[]
 }
 
 export class DataVis extends React.Component<IProps, IState>{
@@ -32,10 +33,19 @@ export class DataVis extends React.Component<IProps, IState>{
       active: () => { return false },
       sorting: false,
       sorted: false,
-      comparisonsMap: new Map()
+      comparisonsMap: new Map(),
+      algos: [
+        { id: QUICK_SORT, complexity: 'O(n*log(n))' },
+        { id: MERGE_SORT, complexity: 'O(n*log(n))' },
+        { id: BUBBLE_SORT, complexity: 'O(n²)' },
+        { id: SELECTION_SORT, complexity: 'O(n²)' },
+        { id: STOOGE_SORT, complexity: 'O(n^2.7095)' },
+      ]
     }
 
     this.Menu = this.Menu.bind(this);
+    this.AlgoList = this.AlgoList.bind(this);
+    this.AlgoEntry = this.AlgoEntry.bind(this);
   }
 
   componentDidMount() {
@@ -46,89 +56,14 @@ export class DataVis extends React.Component<IProps, IState>{
     return <span >
       <h3 style={{ margin: "1rem" }}>Sorting Algorithms</h3>
       <Container style={{ backgroundColor: "grey", paddingTop: "4rem", paddingBottom: "4rem" }}>
-        {this.visualize(this.state.data, this.state.data.length)}
+        {this.VisualizeData(this.state.data, this.state.data.length)}
       </Container>
       <this.Menu></this.Menu>
     </span>
   }
 
-  Menu() {
-    return <Container style={{ marginTop: "1rem", width: "40%" }}>
-      <Row>
-        <Col >
-          Algorithm
-        </Col>
-        <Col className="CenteredText">
-          Complexity
-        </Col>
-        <Col className="CenteredText">
-          Comparisons
-        </Col>
-      </Row>
 
-      <Row >
-        <Col >
-          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(QUICK_SORT) }}>{QUICK_SORT}</Button>
-        </Col>
-        <Col className="CenteredText">
-          O(n*log(n))
-        </Col>
-        <Col className="CenteredText">
-          {this.state.comparisonsMap.get(QUICK_SORT)}
-        </Col>
-      </Row>
-
-      <Row >
-        <Col >
-          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(BUBBLE_SORT) }}>{BUBBLE_SORT}</Button>
-        </Col>
-        <Col className="CenteredText">
-          O(n²)
-        </Col>
-        <Col className="CenteredText">
-          {this.state.comparisonsMap.get(BUBBLE_SORT)}
-        </Col>
-      </Row>
-
-      <Row >
-        <Col >
-          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(SELECTION_SORT) }}>{SELECTION_SORT}</Button>
-        </Col>
-        <Col className="CenteredText">
-          O(n²)
-        </Col>
-        <Col className="CenteredText">
-          {this.state.comparisonsMap.get(SELECTION_SORT)}
-        </Col>
-      </Row>
-
-      <Row >
-        <Col >
-          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(STOOGE_SORT) }}>{STOOGE_SORT}</Button>
-        </Col>
-        <Col className="CenteredText">
-          O(n^2.7095)
-        </Col>
-        <Col className="CenteredText">
-          {this.state.comparisonsMap.get(STOOGE_SORT)}
-        </Col>
-      </Row>
-
-      <Row >
-        <Col >
-          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(MERGE_SORT) }}>{MERGE_SORT}</Button>
-        </Col>
-        <Col className="CenteredText">
-          O(n*log(n))
-        </Col>
-        <Col className="CenteredText">
-          {this.state.comparisonsMap.get(MERGE_SORT)}
-        </Col>
-      </Row>
-    </Container>
-  }
-
-  visualize(data: number[], l: number) {
+  VisualizeData(data: number[], l: number) {
     return data.map((d, index) => <div key={index} style={{
       display: "inline-block",
       height: `${d}rem`,
@@ -136,6 +71,48 @@ export class DataVis extends React.Component<IProps, IState>{
       width: `${35 / l}%`,
       backgroundColor: this.state.sorted ? "#00ff00" : this.state.active(index) ? "#0000ff" : "#000000",
     }}></div>)
+  }
+
+  AlgoList() {
+    return <>
+      {this.state.algos.map(a => {
+        return <this.AlgoEntry algoId={a.id} complexity={a.complexity} />
+      })}</>
+  }
+
+  AlgoEntry(props: { algoId: string, complexity: string }) {
+    return (
+      <Row >
+        <Col >
+          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(props.algoId) }}>{props.algoId}</Button>
+        </Col>
+        <Col className="CenteredText">
+          {props.complexity}
+        </Col>
+        <Col className="CenteredText">
+          {this.state.comparisonsMap.get(props.algoId)}
+        </Col>
+      </Row>
+    )
+  }
+
+  Menu() {
+    return (
+      <Container style={{ marginTop: "1rem", width: "40%" }}>
+        <Row>
+          <Col >
+            Algorithm
+          </Col>
+          <Col className="CenteredText">
+            Complexity
+          </Col>
+          <Col className="CenteredText">
+            Comparisons
+          </Col>
+        </Row>
+        <this.AlgoList />
+      </Container>
+    )
   }
 
   randomizeData() {
