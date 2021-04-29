@@ -47,9 +47,7 @@ async function merge(left: number[], right: number[], start: number, end: number
     }
   }
 
-
   // add rest to result
-
   if (left.length > 0) {
     res = [...res, ...left]
   }
@@ -58,7 +56,7 @@ async function merge(left: number[], right: number[], start: number, end: number
     res = [...res, ...right]
   }
 
-  await sleep(50)
+  await sleep(15)
   updateState(res, start, end, comparisons)
 
   return res;
