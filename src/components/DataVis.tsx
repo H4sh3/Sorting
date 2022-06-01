@@ -84,7 +84,9 @@ export class DataVis extends React.Component<IProps, IState>{
     return (
       <Row >
         <Col >
-          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "2rem" }} onClick={() => { this.sort(props.algoId) }}>{props.algoId}</Button>
+          <Button disabled={this.state.sorting || this.state.sorted} variant="primary" style={{ margin: "1rem" }} onClick={() => { this.sort(props.algoId) }}>
+            {props.algoId}
+          </Button>
         </Col>
         <Col className="CenteredText">
           {props.complexity}
