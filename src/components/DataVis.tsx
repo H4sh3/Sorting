@@ -55,6 +55,7 @@ export class DataVis extends React.Component<IProps, IState>{
   render() {
     return <span >
       <h3 style={{ margin: "1rem" }}>Sorting Algorithms</h3>
+      <h5 style={{ margin: "1rem" }}>Compare different sorting algorithms and how many comparisons are needed to sort <span style={{ color: "red" }}>200 elements</span></h5>
       <Container style={{ backgroundColor: "grey", paddingTop: "4rem", paddingBottom: "4rem" }}>
         {this.VisualizeData(this.state.data, this.state.data.length)}
       </Container>
@@ -118,7 +119,7 @@ export class DataVis extends React.Component<IProps, IState>{
   }
 
   randomizeData() {
-    this.setState({ data: randomArray(100, 20), sorted: false })
+    this.setState({ data: randomArray(200, 20), sorted: false })
   }
 
   async sort(algo: string) {
